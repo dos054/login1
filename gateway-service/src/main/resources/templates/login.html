@@ -4,97 +4,225 @@
     <meta charset="UTF-8">
     <title>로그인</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        * {
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        
         body {
-            background-color: #f8f9fa;
+            background: #f5f5f5;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
+        
         .login-container {
-            max-width: 400px;
-            margin: 100px auto;
-            padding: 20px;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        .login-title {
-            text-align: center;
-            margin-bottom: 30px;
-            color: #333;
-        }
-        .form-control:focus {
-            box-shadow: none;
-            border-color: #0d6efd;
-        }
-        .btn-login {
             width: 100%;
-            padding: 10px;
+            max-width: 400px;
+            padding: 48px 40px;
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
         }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .login-logo {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+        
+        .login-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin: 0;
+        }
+        
+        .login-subtitle {
+            font-size: 14px;
+            color: #888888;
+            margin-top: 8px;
+        }
+        
+        .form-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #333333;
+            margin-bottom: 8px;
+        }
+        
+        .form-control {
+            height: 50px;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 12px 16px;
+            font-size: 15px;
+            transition: all 0.2s ease;
+            background: #fafafa;
+        }
+        
+        .form-control:focus {
+            border-color: #333333;
+            background: #ffffff;
+            box-shadow: none;
+        }
+        
+        .form-control::placeholder {
+            color: #aaaaaa;
+        }
+        
+        .btn-login {
+            height: 50px;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            background: #1a1a1a;
+            color: white;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-login:hover {
+            background: #333333;
+            color: white;
+        }
+        
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 32px 0;
+        }
+        
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #e0e0e0;
+        }
+        
+        .divider span {
+            padding: 0 16px;
+            font-size: 13px;
+            color: #999999;
+        }
+        
+        .social-login {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .btn-social {
+            height: 48px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-naver {
+            background: #03C75A;
+            border: none;
+            color: white;
+        }
+        
+        .btn-naver:hover {
+            background: #02b351;
+            color: white;
+        }
+        
+        .btn-google {
+            background: #ffffff;
+            border: 1px solid #e0e0e0;
+            color: #333333;
+        }
+        
+        .btn-google:hover {
+            background: #f5f5f5;
+            border-color: #d0d0d0;
+            color: #333333;
+        }
+        
         .register-link {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid #eeeeee;
         }
-        .social-login {
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid #dee2e6;
+        
+        .register-link a {
+            color: #666666;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s ease;
         }
-        .btn-naver {
-            background-color: #03C75A;
-            border-color: #03C75A;
-            color: white;
+        
+        .register-link a:hover {
+            color: #1a1a1a;
         }
-        .btn-naver:hover {
-            background-color: #02b351;
-            border-color: #02b351;
-            color: white;
-        }
-        .btn-google {
-            background-color: #fff;
-            border-color: #ddd;
-            color: #333;
-        }
-        .btn-google:hover {
-            background-color: #f8f9fa;
-            border-color: #ccc;
+        
+        .register-link .separator {
+            color: #dddddd;
+            margin: 0 12px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="login-container">
-            <h2 class="login-title">☕ 로그인</h2>
-            <form id="loginForm">
-                <div class="mb-3">
-                    <label for="userId" class="form-label">아이디</label>
-                    <input type="text" class="form-control" id="userId" name="userId" placeholder="아이디 입력" required>
-                </div>
-                <div class="mb-3">
-                    <label for="password" class="form-label">비밀번호</label>
-                    <input type="password" class="form-control" id="password" name="password" placeholder="비밀번호 입력" required>
-                </div>
-                <div class="d-grid">
-                    <button type="submit" class="btn btn-primary btn-login">로그인</button>
-                </div>
-                <div class="register-link">
-                    <a href="/register">계정이 없으신가요? 회원 가입</a>
-                    <span class="mx-2">|</span>
-                    <a href="/reset-password">비밀번호 찾기</a>
-                </div>
-            </form>
-            
-            <!-- 소셜 로그인 -->
-            <div class="social-login">
-                <p class="text-center text-muted mb-3">소셜 계정으로 로그인</p>
-                <div class="d-grid gap-2">
-                    <a href="http://localhost:8004/oauth2/authorization/naver" class="btn btn-naver">
-                        <strong>N</strong> 네이버 로그인
-                    </a>
-                    <a href="http://localhost:8004/oauth2/authorization/google" class="btn btn-google">
-                        <img src="https://www.google.com/favicon.ico" width="18" height="18" class="me-2">
-                        구글 로그인
-                    </a>
-                </div>
+    <div class="login-container">
+        <!-- 헤더 -->
+        <div class="login-header">
+            <div class="login-logo">☕</div>
+            <h1 class="login-title">로그인</h1>
+            <p class="login-subtitle">커피 주문 서비스에 오신 것을 환영합니다</p>
+        </div>
+        
+        <!-- 로그인 폼 -->
+        <form id="loginForm">
+            <div class="mb-4">
+                <label for="userId" class="form-label">아이디</label>
+                <input type="text" class="form-control" id="userId" name="userId" placeholder="아이디를 입력하세요" required>
             </div>
+            <div class="mb-4">
+                <label for="password" class="form-label">비밀번호</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="비밀번호를 입력하세요" required>
+            </div>
+            <div class="d-grid">
+                <button type="submit" class="btn btn-login">로그인</button>
+            </div>
+        </form>
+        
+        <!-- 구분선 -->
+        <div class="divider">
+            <span>또는</span>
+        </div>
+        
+        <!-- 소셜 로그인 -->
+        <div class="social-login">
+            <a href="http://localhost:8004/oauth2/authorization/naver" class="btn btn-social btn-naver">
+                <strong>N</strong> 네이버로 로그인
+            </a>
+            <a href="http://localhost:8004/oauth2/authorization/google" class="btn btn-social btn-google">
+                <img src="https://www.google.com/favicon.ico" width="18" height="18">
+                구글로 로그인
+            </a>
+        </div>
+        
+        <!-- 회원가입/비밀번호 찾기 링크 -->
+        <div class="register-link">
+            <a href="/register">계정이 없으신가요? 회원가입</a>
+            <span class="separator">|</span>
+            <a href="/reset-password">비밀번호 찾기</a>
         </div>
     </div>
 

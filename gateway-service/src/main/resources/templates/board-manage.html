@@ -2,30 +2,272 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>☕ 게시판 관리</title>
+    <title>관리자 - 게시판 관리</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #1a1a2e;
+        }
+        
+        /* 네비게이션 */
+        .navbar {
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%) !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            padding: 16px 0;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 20px;
+            color: #ffffff !important;
+        }
+        
+        .nav-link {
+            color: rgba(255, 255, 255, 0.85) !important;
+            font-weight: 500;
+            padding: 8px 16px !important;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            color: #ffffff !important;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        /* 사이드바 */
+        .sidebar {
+            background: #ffffff;
+            min-height: calc(100vh - 80px);
+            padding: 32px 24px;
+            border-right: 1px solid #e5e7eb;
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.03);
+        }
+        
+        .sidebar-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 24px;
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .sidebar-menu > li {
+            margin-bottom: 24px;
+        }
+        
+        .sidebar-menu-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .sidebar-submenu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .sidebar-submenu li {
+            margin-bottom: 8px;
+        }
+        
+        .sidebar-submenu a {
+            font-size: 14px;
+            color: #6c757d;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            display: block;
+            transition: all 0.2s ease;
+        }
+        
+        .sidebar-submenu a:hover {
+            background: #f3f4f6;
+            color: #1a1a2e;
+        }
+        
+        .sidebar-submenu a.active {
+            background: #1a1a2e;
+            color: #ffffff;
+            font-weight: 500;
+        }
+        
+        /* 메인 콘텐츠 */
+        .main-content {
+            padding: 32px;
+        }
+        
+        .content-card {
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            padding: 32px;
+        }
+        
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .content-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin: 0;
+        }
+        
+        /* 알림 박스 */
+        .info-box {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border: 1px solid #bae6fd;
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin-bottom: 24px;
+            font-size: 14px;
+            color: #0369a1;
+        }
+        
+        /* 테이블 */
+        .table {
+            margin: 0;
+        }
+        
+        .table thead th {
+            background: #f9fafb;
+            border: none;
+            padding: 16px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .table tbody tr {
+            border-bottom: 1px solid #f3f4f6;
+            transition: all 0.2s ease;
+        }
+        
+        .table tbody tr:hover {
+            background: #f9fafb;
+        }
+        
+        .table tbody td {
+            padding: 20px 16px;
+            vertical-align: middle;
+            border: none;
+            font-size: 14px;
+            color: #374151;
+        }
+        
+        .table tbody td a {
+            color: #1a1a2e;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .table tbody td a:hover {
+            color: #4f46e5;
+        }
+        
+        /* 버튼 */
+        .btn-pin {
+            background: #fef3c7;
+            border: none;
+            color: #d97706;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-pin:hover {
+            background: #fbbf24;
+            color: #ffffff;
+        }
+        
+        .btn-unpin {
+            background: #e5e7eb;
+            border: none;
+            color: #6b7280;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-unpin:hover {
+            background: #9ca3af;
+            color: #ffffff;
+        }
+        
+        .btn-delete {
+            background: #fee2e2;
+            border: none;
+            color: #dc2626;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-delete:hover {
+            background: #dc2626;
+            color: #ffffff;
+        }
+        
+        /* 뱃지 */
+        .badge-notice {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-right: 8px;
+        }
+    </style>
 </head>
 <body>
     <!-- 네비게이션 -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container">
-            <a class="navbar-brand" href="/" style="font-weight: bold;">MSA 프로젝트</a>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand" href="/">☕ MSA 프로젝트</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/products">상품</a>
+                        <a class="nav-link" href="/boards">게시판</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/orders">주문</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/boards">☕ 게시판</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/admin">⚙️ 관리자</a>
+                        <a class="nav-link active" href="/admin">관리자</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav" id="authNav">
@@ -40,46 +282,48 @@
         </div>
     </nav>
 
-    <div class="container mt-4">
+    <div class="container-fluid">
         <div class="row">
             <!-- 왼쪽 사이드바 -->
-            <div class="col-md-2" style="background-color: #f8f9fa; min-height: 600px; padding: 20px; border-right: 1px solid #dee2e6;">
-                <h5 style="color: #495057; margin-bottom: 20px;">☕ 관리 메뉴</h5>
-                <ul class="list-unstyled">
-                    <li class="mb-3">
-                        <strong style="color: #212529;">👥 사용자</strong>
-                        <ul class="list-unstyled ms-3 mt-2">
-                            <li><a href="/admin" class="text-decoration-none" style="color: #6c757d;">📊 회원 관리</a></li>
+            <div class="col-md-2 sidebar">
+                <div class="sidebar-title">관리 메뉴</div>
+                <ul class="sidebar-menu">
+                    <li>
+                        <div class="sidebar-menu-title">👥 사용자</div>
+                        <ul class="sidebar-submenu">
+                            <li><a href="/admin">회원 관리</a></li>
                         </ul>
                     </li>
-                    <li class="mb-3">
-                        <strong style="color: #212529;">📢 게시판</strong>
-                        <ul class="list-unstyled ms-3 mt-2">
-                            <li><a href="/board-manage" class="text-decoration-none fw-bold" style="color: #0d6efd;">📝 게시글 관리</a></li>
+                    <li>
+                        <div class="sidebar-menu-title">📢 게시판</div>
+                        <ul class="sidebar-submenu">
+                            <li><a href="/board-manage" class="active">게시글 관리</a></li>
                         </ul>
                     </li>
                 </ul>
             </div>
 
-            <!-- 중앙 게시판 관리 -->
-            <div class="col-md-10">
-                <div style="background-color: white; padding: 30px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
-                    <h2 style="margin-bottom: 30px;">📢 게시판 관리</h2>
-                    
-                    <div class="alert alert-info">
-                        관리자는 모든 게시글을 삭제할 수 있습니다.
+            <!-- 메인 콘텐츠 -->
+            <div class="col-md-10 main-content">
+                <div class="content-card">
+                    <div class="content-header">
+                        <h1 class="content-title">📢 게시글 관리</h1>
                     </div>
                     
-                    <table class="table table-hover">
-                        <thead class="table-light">
+                    <div class="info-box">
+                        💡 관리자는 모든 게시글을 삭제하고 상단 고정/해제할 수 있습니다.
+                    </div>
+                    
+                    <table class="table">
+                        <thead>
                             <tr>
                                 <th style="width: 60px;">번호</th>
                                 <th>제목</th>
                                 <th style="width: 120px;">작성자</th>
                                 <th style="width: 120px;">작성일</th>
-                                <th style="width: 80px;">조회수</th>
+                                <th style="width: 80px;">조회</th>
                                 <th style="width: 80px;">좋아요</th>
-                                <th style="width: 150px;">관리</th>
+                                <th style="width: 180px;">관리</th>
                             </tr>
                         </thead>
                         <tbody id="boardList">
@@ -156,7 +400,7 @@
             boardList.innerHTML = '';
 
             if (boards.length === 0) {
-                boardList.innerHTML = '<tr><td colspan="7" class="text-center">등록된 게시글이 없습니다.</td></tr>';
+                boardList.innerHTML = '<tr><td colspan="7" class="text-center py-5" style="color: #9ca3af;">등록된 게시글이 없습니다.</td></tr>';
                 return;
             }
 
@@ -164,23 +408,25 @@
                 const row = document.createElement('tr');
                 
                 const titleHtml = board.isPinned 
-                    ? `<span style="background-color: #dc3545; color: white; padding: 2px 8px; border-radius: 3px; font-size: 12px; margin-right: 5px;">공지</span>${board.title}` 
+                    ? `<span class="badge-notice">공지</span>${board.title}` 
                     : board.title;
                 
                 const createdAt = new Date(board.createdAt).toLocaleDateString('ko-KR');
                 
+                const pinBtn = board.isPinned 
+                    ? `<button class="btn btn-unpin me-1" onclick="togglePin(${board.id}, ${board.isPinned})">고정해제</button>`
+                    : `<button class="btn btn-pin me-1" onclick="togglePin(${board.id}, ${board.isPinned})">상단고정</button>`;
+                
                 row.innerHTML = `
-                    <td>${boards.length - index}</td>
-                    <td><a href="/boards/${board.id}" class="text-decoration-none">${titleHtml}</a></td>
+                    <td style="font-weight: 500; color: #9ca3af;">${boards.length - index}</td>
+                    <td><a href="/boards/${board.id}">${titleHtml}</a></td>
                     <td>${board.author}</td>
                     <td>${createdAt}</td>
                     <td>${board.viewCount}</td>
                     <td>${board.likeCount}</td>
                     <td>
-                        <button class="btn btn-sm btn-warning me-1" onclick="togglePin(${board.id}, ${board.isPinned})">
-                            ${board.isPinned ? '고정해제' : '상단고정'}
-                        </button>
-                        <button class="btn btn-sm btn-danger" onclick='deleteBoard(${board.id}, "${board.author}")'>삭제</button>
+                        ${pinBtn}
+                        <button class="btn btn-delete" onclick='deleteBoard(${board.id}, "${board.author}")'>삭제</button>
                     </td>
                 `;
                 
@@ -200,7 +446,6 @@
                 });
 
                 if (response.ok) {
-                    alert(isPinned ? '고정이 해제되었습니다.' : '상단에 고정되었습니다.');
                     location.reload();
                 } else {
                     alert('작업에 실패했습니다.');
@@ -218,13 +463,11 @@
             }
 
             try {
-                // 관리자는 원 작성자 ID를 사용해서 삭제
                 const response = await fetch(`/api/boards/${boardId}?author=${originalAuthor}`, {
                     method: 'DELETE'
                 });
 
                 if (response.ok) {
-                    alert('게시글이 삭제되었습니다.');
                     location.reload();
                 } else {
                     const error = await response.text();

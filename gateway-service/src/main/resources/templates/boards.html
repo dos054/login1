@@ -4,12 +4,274 @@
     <meta charset="UTF-8">
     <title>☕ 공지사항 게시판</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #1a1a2e;
+        }
+        
+        /* 네비게이션 */
+        .navbar {
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%) !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            padding: 16px 0;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 20px;
+            color: #ffffff !important;
+        }
+        
+        .nav-link {
+            color: rgba(255, 255, 255, 0.85) !important;
+            font-weight: 500;
+            padding: 8px 16px !important;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            color: #ffffff !important;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        /* 사이드바 */
+        .sidebar {
+            background: #ffffff;
+            min-height: calc(100vh - 80px);
+            padding: 32px 24px;
+            border-right: 1px solid #e5e7eb;
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.03);
+        }
+        
+        .sidebar-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 24px;
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .sidebar-menu > li {
+            margin-bottom: 24px;
+        }
+        
+        .sidebar-menu-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .sidebar-submenu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .sidebar-submenu li {
+            margin-bottom: 8px;
+        }
+        
+        .sidebar-submenu a {
+            font-size: 14px;
+            color: #6c757d;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            display: block;
+            transition: all 0.2s ease;
+        }
+        
+        .sidebar-submenu a:hover {
+            background: #f3f4f6;
+            color: #1a1a2e;
+        }
+        
+        .sidebar-submenu a.active {
+            background: #1a1a2e;
+            color: #ffffff;
+            font-weight: 500;
+        }
+        
+        /* 메인 콘텐츠 */
+        .main-content {
+            padding: 32px;
+        }
+        
+        .content-card {
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            padding: 32px;
+        }
+        
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .content-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin: 0;
+        }
+        
+        .btn-primary-custom {
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-primary-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(26, 26, 46, 0.3);
+        }
+        
+        .btn-secondary-custom {
+            background: #f3f4f6;
+            border: none;
+            color: #374151;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-secondary-custom:hover {
+            background: #e5e7eb;
+            color: #1a1a2e;
+        }
+        
+        /* 테이블 */
+        .table {
+            margin: 0;
+        }
+        
+        .table thead th {
+            background: #f9fafb;
+            border: none;
+            padding: 16px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .table tbody tr {
+            border-bottom: 1px solid #f3f4f6;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        
+        .table tbody tr:hover {
+            background: #f9fafb;
+        }
+        
+        .table tbody td {
+            padding: 20px 16px;
+            vertical-align: middle;
+            border: none;
+            font-size: 14px;
+            color: #374151;
+        }
+        
+        .badge-notice {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-right: 8px;
+        }
+        
+        /* 오른쪽 패널 */
+        .right-panel {
+            padding: 32px 24px;
+        }
+        
+        .panel-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a1a2e;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        
+        .top-item {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .top-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #1a1a2e 0%, #2d2d44 100%);
+        }
+        
+        .top-item:hover {
+            transform: translateX(4px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .top-item-rank {
+            font-size: 14px;
+            font-weight: 700;
+            color: #1a1a2e;
+        }
+        
+        /* 반응형 */
+        @media (max-width: 768px) {
+            .sidebar, .right-panel {
+                display: none;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- 네비게이션 -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container">
-            <a class="navbar-brand" href="/" style="font-weight: bold;">MSA 프로젝트</a>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand" href="/">☕ MSA 프로젝트</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -22,13 +284,11 @@
                         <a class="nav-link" href="/orders">주문</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="/boards">☕ 게시판</a>
+                        <a class="nav-link active" href="/boards">게시판</a>
                     </li>
                     <li class="nav-item" id="adminMenu" style="display: none;">
-                        <a class="nav-link" href="/board-manage">⚙️ 관리</a>
+                        <a class="nav-link" href="/admin">관리자</a>
                     </li>
-
-                    
                 </ul>
                 <ul class="navbar-nav" id="authNav">
                     <li class="nav-item" id="loginNav">
@@ -45,66 +305,63 @@
         </div>
     </nav>
 
-    <div class="container-fluid mt-4">
+    <div class="container-fluid">
         <div class="row">
             <!-- 왼쪽 사이드바 -->
-            <div class="col-md-2" style="background-color: #f8f9fa; min-height: 600px; padding: 20px; border-right: 1px solid #dee2e6;">
-                <h5 style="color: #495057; margin-bottom: 20px;">☕ 메뉴</h5>
-                <ul class="list-unstyled">
-                    <li class="mb-3">
-                        <strong style="color: #212529;">📦 상품 관리</strong>
-                        <ul class="list-unstyled ms-3 mt-2">
-                            <li style="margin-bottom: 8px;"><a href="#" class="text-decoration-none" style="color: #6c757d;">📋 상품 목록</a></li>
-                            <li style="margin-bottom: 8px;"><a href="#" class="text-decoration-none" style="color: #6c757d;">📦 상품 재고</a></li>
+            <div class="col-md-2 sidebar">
+                <div class="sidebar-title">메뉴</div>
+                <ul class="sidebar-menu">
+                    <li>
+                        <div class="sidebar-menu-title">📦 상품 관리</div>
+                        <ul class="sidebar-submenu">
+                            <li><a href="#">상품 목록</a></li>
+                            <li><a href="#">상품 재고</a></li>
                         </ul>
                     </li>
-                    <li class="mb-3">
-                        <strong style="color: #212529;">📋 주문 관리</strong>
-                        <ul class="list-unstyled ms-3 mt-2">
-                            <li style="margin-bottom: 8px;"><a href="#" class="text-decoration-none" style="color: #6c757d;">📄 주문 내역</a></li>
-                            <li style="margin-bottom: 8px;"><a href="#" class="text-decoration-none" style="color: #6c757d;">⏱️ 실시간 주문</a></li>
+                    <li>
+                        <div class="sidebar-menu-title">📋 주문 관리</div>
+                        <ul class="sidebar-submenu">
+                            <li><a href="#">주문 내역</a></li>
+                            <li><a href="#">실시간 주문</a></li>
                         </ul>
                     </li>
-                    <li class="mb-3">
-                        <strong style="color: #212529;">📢 게시판</strong>
-                        <ul class="list-unstyled ms-3 mt-2">
-                            <li style="margin-bottom: 8px;"><a href="/boards" class="text-decoration-none fw-bold" style="color: #0d6efd;">📰 공지사항</a></li>
-                            <li style="margin-bottom: 8px;"><a href="#" class="text-decoration-none" style="color: #6c757d;">❓ FAQ</a></li>
-                            <li style="margin-bottom: 8px;"><a href="#" class="text-decoration-none" style="color: #6c757d;">💬 고객 문의</a></li>
+                    <li>
+                        <div class="sidebar-menu-title">📢 게시판</div>
+                        <ul class="sidebar-submenu">
+                            <li><a href="/boards" class="active">공지사항</a></li>
+                            <li><a href="#">FAQ</a></li>
+                            <li><a href="#">고객 문의</a></li>
                         </ul>
                     </li>
-                    <li class="mb-3">
-                        <strong style="color: #212529;">📊 통계</strong>
-                        <ul class="list-unstyled ms-3 mt-2">
-                            <li style="margin-bottom: 8px;"><a href="#" class="text-decoration-none" style="color: #6c757d;">💰 매출 현황</a></li>
-                            <li style="margin-bottom: 8px;"><a href="#" class="text-decoration-none" style="color: #6c757d;">🌟 인기 메뉴</a></li>
+                    <li>
+                        <div class="sidebar-menu-title">📊 통계</div>
+                        <ul class="sidebar-submenu">
+                            <li><a href="#">매출 현황</a></li>
+                            <li><a href="#">인기 메뉴</a></li>
                         </ul>
                     </li>
                 </ul>
             </div>
 
             <!-- 중앙 게시판 -->
-            <div class="col-md-8">
-                <div style="background-color: white; padding: 30px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
-                    <h2 style="text-align: center; margin-bottom: 30px;">☕ 공지사항 게시판</h2>
-                    
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <div>
-                            <a href="/" class="btn btn-secondary">홈으로</a>
-                        </div>
-                        <div>
-                            <button class="btn btn-primary" onclick="location.href='/boards/write'">글쓰기</button>
+            <div class="col-md-8 main-content">
+                <div class="content-card">
+                    <div class="content-header">
+                        <h1 class="content-title">📢 공지사항</h1>
+                        <div class="d-flex gap-2">
+                            <a href="/" class="btn btn-secondary-custom">홈으로</a>
+                            <a href="/boards/write" class="btn btn-primary-custom text-white">글쓰기</a>
                         </div>
                     </div>
                     
-                    <table class="table table-hover">
-                        <thead class="table-light">
+                    <table class="table">
+                        <thead>
                             <tr>
                                 <th style="width: 60px;">번호</th>
                                 <th>제목</th>
                                 <th style="width: 120px;">작성자</th>
                                 <th style="width: 120px;">작성일</th>
-                                <th style="width: 80px;">조회수</th>
+                                <th style="width: 80px;">조회</th>
                                 <th style="width: 80px;">좋아요</th>
                             </tr>
                         </thead>
@@ -115,24 +372,22 @@
             </div>
 
             <!-- 오른쪽 TOP 5 -->
-            <div class="col-md-2" style="padding: 20px;">
-                <h5 class="text-center mb-3">🏆 인기 메뉴 TOP 5</h5>
-                <div class="text-center">
-                    <div style="width: 100%; height: 120px; background-color: #e9ecef; border: 2px solid #dee2e6; border-radius: 8px; margin-bottom: 10px; display: flex; align-items: center; justify-content: center;">
-                        <span style="color: #6c757d; font-weight: bold;">TOP 1</span>
-                    </div>
-                    <div style="width: 100%; height: 120px; background-color: #e9ecef; border: 2px solid #dee2e6; border-radius: 8px; margin-bottom: 10px; display: flex; align-items: center; justify-content: center;">
-                        <span style="color: #6c757d; font-weight: bold;">TOP 2</span>
-                    </div>
-                    <div style="width: 100%; height: 120px; background-color: #e9ecef; border: 2px solid #dee2e6; border-radius: 8px; margin-bottom: 10px; display: flex; align-items: center; justify-content: center;">
-                        <span style="color: #6c757d; font-weight: bold;">TOP 3</span>
-                    </div>
-                    <div style="width: 100%; height: 120px; background-color: #e9ecef; border: 2px solid #dee2e6; border-radius: 8px; margin-bottom: 10px; display: flex; align-items: center; justify-content: center;">
-                        <span style="color: #6c757d; font-weight: bold;">TOP 4</span>
-                    </div>
-                    <div style="width: 100%; height: 120px; background-color: #e9ecef; border: 2px solid #dee2e6; border-radius: 8px; margin-bottom: 10px; display: flex; align-items: center; justify-content: center;">
-                        <span style="color: #6c757d; font-weight: bold;">TOP 5</span>
-                    </div>
+            <div class="col-md-2 right-panel">
+                <div class="panel-title">🏆 인기 메뉴 TOP 5</div>
+                <div class="top-item">
+                    <span class="top-item-rank">TOP 1</span>
+                </div>
+                <div class="top-item">
+                    <span class="top-item-rank">TOP 2</span>
+                </div>
+                <div class="top-item">
+                    <span class="top-item-rank">TOP 3</span>
+                </div>
+                <div class="top-item">
+                    <span class="top-item-rank">TOP 4</span>
+                </div>
+                <div class="top-item">
+                    <span class="top-item-rank">TOP 5</span>
                 </div>
             </div>
         </div>
@@ -152,7 +407,6 @@
                 document.getElementById('logoutNav').classList.remove('d-none');
                 document.getElementById('username').textContent = `${username} (${role})`;
                 
-                // 관리자면 관리 메뉴 보이기
                 if (role === 'ADMIN') {
                     document.getElementById('adminMenu').style.display = 'block';
                 }
@@ -189,24 +443,23 @@
             boardList.innerHTML = '';
 
             if (boards.length === 0) {
-                boardList.innerHTML = '<tr><td colspan="6" class="text-center">등록된 게시글이 없습니다.</td></tr>';
+                boardList.innerHTML = '<tr><td colspan="6" class="text-center py-5" style="color: #9ca3af;">등록된 게시글이 없습니다.</td></tr>';
                 return;
             }
 
             boards.forEach((board, index) => {
                 const row = document.createElement('tr');
-                row.style.cursor = 'pointer';
                 row.onclick = () => location.href = `/boards/${board.id}`;
                 
                 const titleHtml = board.isPinned 
-                    ? `<span style="background-color: #dc3545; color: white; padding: 2px 8px; border-radius: 3px; font-size: 12px; margin-right: 5px;">공지</span>${board.title}` 
+                    ? `<span class="badge-notice">공지</span>${board.title}` 
                     : board.title;
                 
                 const createdAt = new Date(board.createdAt).toLocaleDateString('ko-KR');
                 
                 row.innerHTML = `
-                    <td>${boards.length - index}</td>
-                    <td>${titleHtml}</td>
+                    <td style="font-weight: 500; color: #9ca3af;">${boards.length - index}</td>
+                    <td style="font-weight: 500; color: #1a1a2e;">${titleHtml}</td>
                     <td>${board.author}</td>
                     <td>${createdAt}</td>
                     <td>${board.viewCount}</td>
